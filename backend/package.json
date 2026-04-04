@@ -1,31 +1,32 @@
 {
-  "name": "task-manager-backend",
+  "name": "team-collaboration-board-backend",
   "version": "1.0.0",
-  "description": "Backend for Task Manager App",
+  "description": "Backend API for Team Collaboration Board",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "prod": "node server.js"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "bcrypt": "^5.0.1",
-    "chai": "^4.5.0",
-    "chai-http": "^4.3.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.14",
-    "request": "^2.88.2"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.4"
   },
   "devDependencies": {
-    "esm": "^3.2.25",
-    "mocha": "^11.0.1",
-    "nodemon": "^2.0.15",
-    "sinon": "^19.0.2"
+    "jest": "^29.5.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   },
-  "author": "Task Manager Team",
-  "license": "ISC"
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.js"],
+    "passWithNoTests": true
+  }
 }
