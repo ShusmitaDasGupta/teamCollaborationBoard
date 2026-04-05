@@ -1,22 +1,62 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import api from '../utils/api';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (userData) => {
-    setUser(userData);
+  const loadUser = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) { setLoading(false); return; }
+    try {
+      const { data } = await api.get('/auth/me');
+      setUser(data.user);
+    } catch {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { loadUser(); }, [loadUser]);
+
+  const login = async (email, password) => {
+    const { data } = await api.post('/auth/login', { email, password });
+    localStorage.setItem('token', data.token);
+    setUser(data.user);
+    return data.user;
+  };
+
+  const register = async (name, email, password) => {
+    const { data } = await api.post('/auth/register', { name, email, password });
+    localStorage.setItem('token', data.token);
+    setUser(data.user);
+    return data.user;
   };
 
   const logout = () => {
+    localStorage.removeItem('token');
     setUser(null);
   };
+
+  const updateProfile = async (updates) => {
+    const { data } = await api.put('/auth/me', updates);
+    setUser(data.user);
+    return data.user;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, updateProfile, isAdmin: user?.role === 'admin' }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  return ctx;
+};
