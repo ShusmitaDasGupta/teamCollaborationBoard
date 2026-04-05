@@ -124,9 +124,6 @@ export default function BoardMembersModal({ board, onClose, onUpdated }) {
                   {sending ? <><span className="spinner" /> Sending...</> : '📧 Send Invitation Email'}
                 </button>
               </form>
-              <div className="dev-tip">
-                💡 <strong>Development tip:</strong> Check your backend terminal for the email preview link — no real email is sent in dev mode.
-              </div>
             </div>
           )}
 

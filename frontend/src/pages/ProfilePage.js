@@ -5,7 +5,7 @@ import './ProfilePage.css';
 
 export default function ProfilePage() {
   const { user, updateProfile } = useAuth();
-  const [form, setForm] = useState({ name: user?.name || '', avatar: user?.avatar || '' });
+  const [form, setForm] = useState({ name: user?.name || '' });
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -57,11 +57,7 @@ export default function ProfilePage() {
                 style={{ opacity: 0.6, cursor: 'not-allowed' }} />
               <small style={{ color: 'var(--text-muted)', fontSize: 12 }}>Email cannot be changed</small>
             </div>
-            <div className="form-group">
-              <label>Avatar URL <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
-              <input className="form-control" placeholder="https://..." value={form.avatar}
-                onChange={e => setForm({ ...form, avatar: e.target.value })} />
-            </div>
+            
             <button type="submit" className="btn btn-primary" disabled={saving}>
               {saving ? <><span className="spinner" /> Saving...</> : 'Save Changes'}
             </button>
