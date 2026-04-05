@@ -39,7 +39,7 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test -- --passWithNoTests
+        run: npx jest --passWithNoTests
         env:
           MONGODB_URI: mongodb://localhost:27017/test_db
           JWT_SECRET: test_jwt_secret_for_ci
@@ -66,12 +66,12 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Run tests
-        run: npm test -- --watchAll=false --passWithNoTests
+        run: npx react-scripts test --watchAll=false --passWithNoTests
         env:
           CI: true
 
       - name: Build frontend
-        run: npm run build
+        run: npx react-scripts build
         env:
           REACT_APP_API_URL: /api
           CI: false
